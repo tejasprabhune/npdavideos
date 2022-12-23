@@ -35,3 +35,7 @@ The timeline for these features is TBD since the main features I wanted to imple
 * **Cross-Sync** - any round recording added to the Cal-specific *List of All Round Recordings* Google Doc will be automatically synced to the website database and vice-versa (potentially Cal-rounds only to prevent doc overloading and crashes).
 
 * **Team/School Based Logins** - Ability to create school-wide accounts for school-specific recordings (e.g. hosting practice round recordings that schools are unwilling to share to the general public)
+
+## Code Structure
+
+The code is currently in a working stage - the main .js file has been commented to a certain extent but is very much vanilla JS as of right now. Hopefully I get around to learning React and reimplementing this project for a more modern structure. Pull requests of this nature are welcome!

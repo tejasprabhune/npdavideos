@@ -14,6 +14,8 @@ var searchBar = document.getElementById("div-search-bar");
 var resultsWrapper = document.getElementById("results-wrapper");
 var currentResultWrapper = document.getElementById("current-result");
 
+var devInfo = document.getElementById("dev-info");
+
 // On page load
 window.addEventListener("load", onPageLoad);
 
