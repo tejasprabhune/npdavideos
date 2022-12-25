@@ -168,8 +168,7 @@ function openResult(hit) {
     resultsWrapper.style["padding-top"] = "0vh";
     result.style["margin-bottom"] = "2%";
     currentResultWrapper.appendChild(result);
-    let resultOffset = currentResultWrapper.offsetTop;
-    window.scrollTo({ top: resultOffset, behavior: 'smooth' })
+    currentResultWrapper.scrollIntoView({behavior: "smooth"});
 }
 
 /**
