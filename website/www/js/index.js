@@ -5,6 +5,7 @@ const index = client.initIndex("all_rounds");
 
 
 // initialize document elements
+var title = document.getElementById("h1-title");
 var titleLink = document.getElementById("title-link");
 var inputQuery = document.getElementById("input-search-bar");
 
@@ -15,6 +16,8 @@ var resultsWrapper = document.getElementById("results-wrapper");
 var currentResultWrapper = document.getElementById("current-result");
 
 var devInfo = document.getElementById("dev-info");
+
+var page = 1;
 
 // On page load
 window.addEventListener("load", onPageLoad);
@@ -34,6 +37,7 @@ inputQuery.addEventListener("input", function() {
 // Generate and display result cards when pressed Enter in search bar
 inputQuery.addEventListener("keypress", function(e) {
     if(e.key == "Enter") {
+        page = 1;
         displayGenResults();
     }
 });
@@ -47,20 +51,32 @@ inputQuery.addEventListener("focusout", function () {
     searchBar.style["box-shadow"] = "rgba(99, 99, 99, 0.2) 0px 0px 8px 0px";
 });
 
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+        displayGenResults(undefined, page);
+        page++;
+    }
+})
+
 /**
  * Resets results, generates random 10 cards and displays results
  */
 function onPageLoad() {
     resultsWrapper.innerHTML = "";
-    let pageNum = Math.floor(Math.random() * 50);
 
     index.search("", {
-        page: pageNum,
-        hitsPerPage: 10
-    }).then(({hits}) => {
-        generateResultCards(hits, resultsWrapper);
+    }).then(({nbHits}) => {
+        let pageNum = Math.floor(Math.random() * (nbHits/10));
+        index.search("", {
+            page: pageNum,
+            hitsPerPage: 10,
+        }).then(({hits}) => {
+            generateResultCards(hits, resultsWrapper);
+        });
     });
+    
     resetSearchBar();
+
 }
 
 /**
@@ -68,6 +84,7 @@ function onPageLoad() {
  */
 function reload() {
     window.open("index.html", "_self");
+    page = 1;
 }
 
 /**
@@ -129,13 +146,13 @@ function searchDisplayPreviews(value) {
  * 
  * @param {string} value Current search query
  */
-function displayGenResults(value=inputQuery.value) {
-    resultsWrapper.innerHTML = "";
-    sessionStorage.query = value;
-    //title.style["font-size"] = "5em";
-
+function displayGenResults(value=inputQuery.value, page=0) {
+    if(!page) {
+        resultsWrapper.innerHTML = "";
+    }
     index.search(value, {
-        hitsPerPage: 10
+        hitsPerPage: 10,
+        page: page
     }).then(({hits}) => {
         generateResultCards(hits, resultsWrapper);
     });

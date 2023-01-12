@@ -9,7 +9,6 @@ body, html {
     width: 100%;
     background-color: #F9F7F7;
     margin: 0;
-    overflow: auto;
     display: flex;
     flex-direction: column;
 }
@@ -28,7 +27,6 @@ body, html {
     color: #112D4E;
 
     text-align: center;
-    align-items: center;
     margin: 0;
 }
 
@@ -215,3 +213,4 @@ body, html {
 a {
     color: #112D4E;
 }
+
