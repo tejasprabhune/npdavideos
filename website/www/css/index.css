@@ -275,3 +275,12 @@ a {
     margin-bottom: 2%;
     font-size: 1.3em;
 }
+
+iframe {
+    width: 80%;
+    height: 30em;
+    margin-top: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border: none;
+}

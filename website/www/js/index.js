@@ -308,6 +308,7 @@ function standardizeLink(link) {
         console.log("here");
         return "https://dl." + link.substring(dropboxIdx);
     }
+    return link;
 }
 
 
@@ -339,7 +340,7 @@ function createPreview(text, href, embed=false) {
     var h1A = document.createElement("a");
 	var h1Text = document.createTextNode(text);
 
-    h1A.setAttribute("href", "https://www" + href.substring(10));
+    h1A.setAttribute("href", "https://www" + href.substring(href.indexOf(".")));
 
     h1A.appendChild(h1Text);
     h1A.className = "body-text";
@@ -394,14 +395,20 @@ function createResultCard(hit, location="", embed=false) {
     resultCard.appendChild(resultTitle);
 
     if(embed) {
-        let media = document.createElement("audio");
-        media.setAttribute("src", hit["link"]);
-        media.setAttribute("controls", "controls");
-        media.classList.add("media");
+        let media = null;
+        if(hit["link"].includes("dropbox")) {
+            media = document.createElement("audio");
+            media.setAttribute("src", hit["link"]);
+            media.setAttribute("controls", "controls");
+            media.classList.add("media");
+        } else if(ytVidId(hit["link"])) {
+            media = document.createElement("iframe");
+            media.src = "https://www.youtube.com/embed/" + ytVidId(hit["link"]);
+        }
         resultCard.appendChild(media);
         media.addEventListener("error", function() {
             resultCard.removeChild(media);
-        })
+        });
     }
 
     for(const [key, value] of Object.entries(hit)) {
@@ -418,6 +425,11 @@ function createResultCard(hit, location="", embed=false) {
     resultCard.appendChild(tags);
 
     return resultCard;
+}
+
+function ytVidId(url) {
+  var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return (url.match(p)) ? RegExp.$1 : false;
 }
 
 /**

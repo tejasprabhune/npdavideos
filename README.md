@@ -24,7 +24,7 @@ An initiative to collect and store debate videos for current and future NPDA deb
 
 * **Infinite Scroll** - any search query allows the user to page by scrolling to the bottom to generate more results
 
-* **Upload/Add** - any user may add a result card for a specific round recording they possess by inputting the relevant round information and a Dropbox link.
+* **Upload/Add** - any user may add a result card for a specific round recording they possess by inputting the relevant round information and a Dropbox/YouTube link.
 
 ## Planned Features:
 
