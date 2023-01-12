@@ -22,13 +22,13 @@ An initiative to collect and store debate videos for current and future NPDA deb
 
 * **Selection** - clicking on a result card will display a main card with the same information and will display an embedded audio controls element if possible and a link to the round as the title of the card itself.
 
+* **Infinite Scroll** - any search query allows the user to page by scrolling to the bottom to generate more results
+
+* **Upload/Add** - any user may add a result card for a specific round recording they possess by inputting the relevant round information and a Dropbox link.
+
 ## Planned Features:
 
 The timeline for these features is TBD since the main features I wanted to implement have been completed and school and debate prep usually takes precedence. Pull requests with work on these features are also super welcome!
-
-* **Pagination** - any search query allows the user to page through results rather than being restricted to top 10 results.
-
-* **Upload/Add** - any user may add a result card for a specific round recording they possess by inputting the relevant round information and a Dropbox/Youtube link.
 
 * **Advanced Search Mechanisms** - more explicit keyword-based filtering of results outside of only search-bar inputs.
 
