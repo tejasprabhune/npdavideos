@@ -15,6 +15,8 @@ var searchBar = document.getElementById("div-search-bar");
 var resultsWrapper = document.getElementById("results-wrapper");
 var currentResultWrapper = document.getElementById("current-result");
 
+var addButton = document.getElementById("add-button");
+
 var devInfo = document.getElementById("dev-info");
 
 var page = 1;
@@ -33,6 +35,10 @@ inputQuery.addEventListener("input", function() {
         resetSearchBar(true);
     }
 }, false);
+
+addButton.addEventListener("click", function() {
+    openAddCard();
+});
 
 // Generate and display result cards when pressed Enter in search bar
 inputQuery.addEventListener("keypress", function(e) {
@@ -188,6 +194,124 @@ function openResult(hit) {
     currentResultWrapper.scrollIntoView({behavior: "smooth"});
 }
 
+function openAddCard() {
+    function allFilled() {
+        for(let i = 0; i < addCard.children.length; i++) {
+            if(addCard.children[i].nodeName == "DIV" && 
+                addCard.children[i].lastChild.value == '') {
+                return false;
+            }
+        }
+        return true;
+    }
+    currentResultWrapper.innerHTML = "";
+
+    let addTitle = createPreview("Add a Round Recording", "");
+    addTitle.classList.add("card-title");
+    addTitle.style["padding-bottom"] = "0vh";
+
+    let addCard = document.createElement("div");
+    addCard.classList.add("card");
+    addCard.appendChild(addTitle);
+    currentResultWrapper.appendChild(addCard);
+
+    let addLabels = {
+        "Round title": "Finals - Cal MR vs Rice AL",
+        "Link": "dropbox link, youtube link, etc.",
+        "Resolution": "The USFG should.",
+        "Aff": "topical (war, econ)",
+        "Neg": "2-off (framework-t, orientalism)",
+        "Tags": "#topicality, #mlm",
+        "Decision": "3-0 Aff",
+        "Year": "2020-21",
+        "Tournament": "NPDA",
+    };
+
+    let roundInfo = {
+        "title": "",
+        "link": "",
+        "resolution": "",
+        "aff": "",
+        "neg": "",
+        "_tags": [],
+        "decision": "",
+        "year": "",
+        "tournament": "",
+    }
+
+    for(const [key, value] of Object.entries(addLabels)) {
+        let labelDiv = document.createElement("div");
+        labelDiv.classList.add("add-div");
+
+        let label = document.createElement("p");
+        label.appendChild(document.createTextNode(key + ":"));
+        label.classList.add("card-p", "body-text", "add-label");
+
+        let input = document.createElement("input");
+        input.classList.add("search-bar", "body-text", "add-input");
+        input.addEventListener("keyup", function() {
+            if(allFilled()) {
+                addSubmit.classList = ["button"];
+                addSubmit.classList.add("body-text");
+                addSubmit.addEventListener("click", addSubmitClick);
+            } else {
+                addSubmit.classList = ["button-off"];
+                addSubmit.classList.add("body-text");
+                addSubmit.removeEventListener("click", addSubmitClick);
+            }
+        });
+        input.placeholder = value;
+
+        labelDiv.appendChild(label);
+        labelDiv.appendChild(input);
+        addCard.appendChild(labelDiv);
+    }
+
+    addCard.lastChild.lastChild.style["margin-bottom"] = "0em";
+
+    let addSubmit = document.createElement("p");
+    addSubmit.appendChild(document.createTextNode("add round"));
+    addSubmit.classList.add("button-off");
+    addSubmit.classList.add("body-text");
+    addSubmit.id = "add-submit";
+
+    let roundIndex = 0;
+
+    addCard.appendChild(addSubmit);
+
+    currentResultWrapper.scrollIntoView({behavior: "smooth"});
+
+    function addSubmitClick() {
+        for(let i = 0; i < addCard.children.length; i++) {
+            if(addCard.children[i].nodeName == "DIV") {
+                let currentKey = Object.keys(roundInfo)[roundIndex];
+                let currentValue = addCard.children[i].lastChild.value;
+                if(Array.isArray(roundInfo[currentKey])) {
+                    roundInfo[currentKey] = currentValue.split(',').map(s => s.trim());
+                } else if(currentKey == "link") {
+                    roundInfo[currentKey] = standardizeLink(currentValue);
+                } else {
+                    roundInfo[currentKey] = currentValue;
+                }
+                roundIndex++;
+            }
+        }
+        index.saveObject(roundInfo, {autoGenerateObjectIDIfNotExist:true});
+        openResult(roundInfo);
+    }
+}
+
+function standardizeLink(link) {
+    // Dropbox
+    let dropboxIdx = link.indexOf("dropbox");
+    if(link.includes("dropbox")) {
+        console.log("here");
+        return "https://dl." + link.substring(dropboxIdx);
+    }
+}
+
+
+
 /**
  * Resets search bar to 0 results
  * 
@@ -241,7 +365,7 @@ function createPreview(text, href, embed=false) {
  * @param {string} value Value of description
  */
 function createResultDescription(card, key, value) {
-    if(key != "title" && key != "link" && key != "objectID" && typeof value == "string") {
+    if(key != "title" && key != "link" && key != "_tags" && key != "objectID" && typeof value == "string") {
         let resultPiece = document.createElement("p");
         resultPiece.appendChild(document.createTextNode(capFirstLetter(key) + ": " + value));
         resultPiece.classList.add("card-p", "body-text");
@@ -285,7 +409,11 @@ function createResultCard(hit, location="", embed=false) {
     }
 
     let tags = document.createElement("p");
-    tags.appendChild(document.createTextNode("Tags: " + hit["_tags"].join(', ')));
+    if(hit["_tags"]) {
+        tags.appendChild(document.createTextNode("Tags: " + hit["_tags"].join(', ')));
+    } else {
+        tags.appendChild(document.createTextNode("Tags: "));
+    }
     tags.classList.add("card-p", "body-text");
     resultCard.appendChild(tags);
 

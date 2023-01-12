@@ -22,12 +22,23 @@ body, html {
     font-family: orpheuspro, serif;
     font-weight: 100;
     font-style: normal;
-    font-size: 20em;
+    font-size: 15em;
 
     color: #112D4E;
 
     text-align: center;
     margin: 0;
+}
+
+#add-button {
+    float: right;
+    padding: 1em;
+    margin: 0;
+    width: fit-content;
+}
+
+#add-button:hover {
+    cursor: pointer;
 }
 
 .body-text {
@@ -36,6 +47,24 @@ body, html {
     color: #112D4E;
 }
 
+.button-off {
+    padding: 1em;
+    background-color: #AAAFB4;
+    color: #F9F7F7;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
+}
+
+.button {
+    padding: 1em;
+    background-color: #112D4E;
+    color: #F9F7F7;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
+}
+
+.button:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 1px 1px 8px;
+}
 #title-link:hover {
     cursor: pointer;
 }
@@ -76,11 +105,11 @@ body, html {
     padding-bottom: 2vh;
 }
 
-#input-search-bar:focus {
+.search-bar:focus {
     outline: none;
 }
 
-#input-search-bar::placeholder {
+.search-bar::placeholder {
     text-overflow: ellipsis;
 }
 
@@ -214,3 +243,35 @@ a {
     color: #112D4E;
 }
 
+.add-div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+}
+
+.add-label {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    width: 6em;
+}
+
+.add-input {
+    height: 2em;
+    font-size: 1.3em;
+    text-align: left;
+    border: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 0.5%;
+    padding-left: 1%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
+}
+
+#add-submit {
+    width: 20%;
+    text-align: center;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 1.3em;
+}
