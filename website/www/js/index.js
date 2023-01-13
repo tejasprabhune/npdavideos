@@ -404,6 +404,11 @@ function createResultCard(hit, location="", embed=false) {
         } else if(ytVidId(hit["link"])) {
             media = document.createElement("iframe");
             media.src = "https://www.youtube.com/embed/" + ytVidId(hit["link"]);
+        } else if(vimeoVidId(hit["link"])) {
+            media = document.createElement("iframe");
+            media.src = "https://player.vimeo.com/video/" + vimeoVidId(hit["link"]);
+        } else {
+
         }
         resultCard.appendChild(media);
         media.addEventListener("error", function() {
@@ -432,6 +437,15 @@ function ytVidId(url) {
   return (url.match(p)) ? RegExp.$1 : false;
 }
 
+function vimeoVidId(url) {
+    var p = /(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/?(showcase\/)*([0-9))([a-z]*\/)*([0-9]{6,11})[?]?.*/;
+    var match = url.match(p);
+    if(match) {
+        return match[6];
+    } else {
+        return false;
+    }
+} 
 /**
  * Capitalizes first letter of given string
  * @param {string} string String to capitalize
