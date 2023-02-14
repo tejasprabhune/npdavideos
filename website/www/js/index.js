@@ -19,7 +19,7 @@ var addButton = document.getElementById("add-button");
 
 var devInfo = document.getElementById("dev-info");
 
-const PADDING = 50;
+const PADDING = 3;
 
 var page = 1;
 
@@ -60,15 +60,28 @@ inputQuery.addEventListener("focusout", function () {
 });
 
 $(window).scroll(function() {
-    if(atBottom()) {
-        displayGenResults(undefined, page);
-        page++;
-    }
-})
+    throttle(function() {
+        if(atBottom()) {
+            displayGenResults(undefined, page);
+            page++;
+        }
+    }, 250);
+});
 
 function atBottom() {
     return $(window).scrollTop() + $(window).height() 
         > $(document).height() - PADDING;
+}
+
+let throttleTimer;
+
+const throttle = (callback, time) => {
+    if (throttleTimer) return;
+    throttleTimer = true;
+    setTimeout(() => {
+        callback();
+        throttleTimer = false;
+    }, time);
 }
 
 /**
@@ -82,11 +95,12 @@ function onPageLoad() {
         let pageNum = Math.floor(Math.random() * (nbHits/10));
         page = pageNum;
         index.search("", {
-            page: pageNum,
+            page: page,
             hitsPerPage: 10,
         }).then(({hits}) => {
             generateResultCards(hits, resultsWrapper);
         });
+        page++;
     });
     
     resetSearchBar();
