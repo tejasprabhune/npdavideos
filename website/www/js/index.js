@@ -80,6 +80,7 @@ function onPageLoad() {
     index.search("", {
     }).then(({nbHits}) => {
         let pageNum = Math.floor(Math.random() * (nbHits/10));
+        page = pageNum;
         index.search("", {
             page: pageNum,
             hitsPerPage: 10,
