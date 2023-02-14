@@ -60,12 +60,16 @@ inputQuery.addEventListener("focusout", function () {
 });
 
 $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() 
-            > $(document).height() - PADDING) {
+    if(atBottom()) {
         displayGenResults(undefined, page);
         page++;
     }
 })
+
+function atBottom() {
+    return $(window).scrollTop() + $(window).height() 
+        > $(document).height() - PADDING;
+}
 
 /**
  * Resets results, generates random 10 cards and displays results
