@@ -30,6 +30,8 @@ An initiative to collect and store debate videos for current and future NPDA deb
 
 The timeline for these features is TBD since the main features I wanted to implement have been completed and school and debate prep usually takes precedence. Pull requests with work on these features are also super welcome!
 
+* **Copy Round Info Snippets** - button to generate and copy round info for the Cal ground truth doc.
+
 * **Advanced Search Mechanisms** - more explicit keyword-based filtering of results outside of only search-bar inputs.
 
 * **Cross-Sync** - any round recording added to the Cal-specific *List of All Round Recordings* Google Doc will be automatically synced to the website database and vice-versa (potentially Cal-rounds only to prevent doc overloading and crashes).

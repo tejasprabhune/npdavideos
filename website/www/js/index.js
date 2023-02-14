@@ -19,6 +19,8 @@ var addButton = document.getElementById("add-button");
 
 var devInfo = document.getElementById("dev-info");
 
+const PADDING = 50;
+
 var page = 1;
 
 // On page load
@@ -58,7 +60,8 @@ inputQuery.addEventListener("focusout", function () {
 });
 
 $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+    if($(window).scrollTop() + $(window).height() 
+            > $(document).height() - PADDING) {
         displayGenResults(undefined, page);
         page++;
     }
@@ -305,7 +308,6 @@ function standardizeLink(link) {
     // Dropbox
     let dropboxIdx = link.indexOf("dropbox");
     if(link.includes("dropbox")) {
-        console.log("here");
         return "https://dl." + link.substring(dropboxIdx);
     }
     return link;
