@@ -431,13 +431,13 @@ function createResultCard(hit, location="", embed=false) {
         } else if(vimeoVidId(hit["link"])) {
             media = document.createElement("iframe");
             media.src = "https://player.vimeo.com/video/" + vimeoVidId(hit["link"]);
-        } else {
-
         }
-        resultCard.appendChild(media);
-        media.addEventListener("error", function() {
-            resultCard.removeChild(media);
-        });
+        if (media != null) {
+            resultCard.appendChild(media);
+            media.addEventListener("error", function() {
+                resultCard.removeChild(media);
+            });
+        }
     }
 
     for(const [key, value] of Object.entries(hit)) {
