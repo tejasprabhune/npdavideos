@@ -1,1 +1,5 @@
 website/www/js/config.js
+ParseDoc/credentials.json
+ParseDoc/token.json
+ParseDoc/test_algolia.py
+ParseDoc/algolia_api.py

@@ -188,7 +188,7 @@ function displayGenResults(value=inputQuery.value, page=0) {
 }
 
 /**
- * Generates result cards and adds them to given wrapper based on query
+ * Generates result cards and adds them to given wrapper based on query.
  * 
  * @param {Object} hits Hits from search query 
  * @param {Object} wrapper Wrapper to add result cards to
@@ -196,6 +196,7 @@ function displayGenResults(value=inputQuery.value, page=0) {
 function generateResultCards(hits, wrapper) {
     let locations = ["left", "right"];
     for(let i = 0; i < Math.min(hits.length, 10); i++) {
+        // i % 2 to filter results one by one to left then right column
         let result = createResultCard(hits[i], locations[i % 2]);
         result.addEventListener("click", function() {openResult(hits[i])});
         wrapper.appendChild(result);
@@ -318,6 +319,7 @@ function openAddCard() {
                 roundIndex++;
             }
         }
+        roundInfo["searchable_tags"] = roundInfo["_tags"];
         index.saveObject(roundInfo, {autoGenerateObjectIDIfNotExist:true});
         openResult(roundInfo);
     }
@@ -387,7 +389,8 @@ function createPreview(text, href, embed=false) {
  * @param {string} value Value of description
  */
 function createResultDescription(card, key, value) {
-    if(key != "title" && key != "link" && key != "_tags" && key != "objectID" && typeof value == "string") {
+    if(!["title", "link", "_tags", "searchable_tags", "objectID"].includes(key)
+            && typeof value == "string") {
         let resultPiece = document.createElement("p");
         resultPiece.appendChild(document.createTextNode(capFirstLetter(key) + ": " + value));
         resultPiece.classList.add("card-p", "body-text");
@@ -442,8 +445,8 @@ function createResultCard(hit, location="", embed=false) {
     }
 
     let tags = document.createElement("p");
-    if(hit["_tags"]) {
-        tags.appendChild(document.createTextNode("Tags: " + hit["_tags"].join(', ')));
+    if(hit["searchable_tags"]) {
+        tags.appendChild(document.createTextNode("Tags: " + hit["searchable_tags"].join(', ')));
     } else {
         tags.appendChild(document.createTextNode("Tags: "));
     }
